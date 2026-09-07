@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { DemoBadge } from "@/components/layout/DemoBadge";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { site } from "@/lib/site";
 import { organizationJsonLd } from "@/lib/seo";
@@ -41,7 +42,11 @@ export const metadata: Metadata = {
     description:
       "6 profesionálních drah, GLOW bowling, restaurace, bar a vinotéka pod jednou střechou v Praze 6.",
   },
-  robots: { index: true, follow: true },
+  // Demo běží na vercel.app se skutečným jménem, adresou i telefonem
+  // podniku a s `BowlingAlley` schematem. Indexovat ho by znamenalo
+  // konkurovat bowlingmanta.cz ve vyhledávání. `follow: true` schválně —
+  // robot tak projde všechny podstránky a u každé si `noindex` přečte.
+  robots: { index: false, follow: true },
 };
 
 export const viewport = {
@@ -76,6 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransition>{children}</PageTransition>
         </main>
         <Footer />
+        <DemoBadge />
         <Analytics />
       </body>
     </html>

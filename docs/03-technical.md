@@ -317,3 +317,32 @@ vidí — HTML je v obou případech hotové — ale je to rozdíl v Core Web
 Vitals na pomalém mobilu. Snížit to jde jedině ubráním animací
 (`LazyMotion`, méně `"use client"` komponent); v tomhle projektu jsou
 animace záměrná součást zadání, takže číslo zůstává.
+
+## 13. Demo, ne oficiální web
+
+Web běží na `vercel.app` se skutečným jménem, adresou, telefonem
+a `BowlingAlley` schematem reálného podniku. Indexovat ho by znamenalo
+konkurovat bowlingmanta.cz v lokálním vyhledávání. Proto:
+
+- `app/layout.tsx` posílá `robots: { index: false, follow: true }` →
+  `<meta name="robots" content="noindex, follow">` na každé stránce.
+- `app/robots.ts` crawl schválně **povoluje**. Kdyby tam bylo
+  `Disallow: /`, robot stránku vůbec nestáhne, `noindex` v hlavičce
+  nikdy nepřečte — a URL se pak může v Googlu objevit bez obsahu.
+  `follow: true` pak zajistí, že robot projde všechny podstránky a
+  `noindex` si přečte u každé.
+- `components/layout/DemoBadge.tsx` drží vpravo dole trvalé upozornění.
+  Otevřené vysvětlí, že ceny i rezervace jsou nezávazné, a odkáže na
+  oficiální web; zavřené se scvrkne na pilulku „DEMO“, takže se nedá
+  odklikat natrvalo. Stav drží `useState` v root layoutu, který App
+  Router mezi přechody neodmountuje — zavření platí pro celou návštěvu,
+  po reloadu se upozornění zase ukáže.
+
+Pod `lg` se štítek na `/rezervace` odsune výš (`bottom-24`), aby
+nepřekrýval fixní lištu se souhrnem rezervace.
+
+Sitemap zůstává — pomáhá robotovi najít všechny stránky, u kterých si má
+`noindex` přečíst.
+
+Až web dostane vlastní doménu a nahradí ten původní, stačí obrátit
+`index: false` na `true` a odebrat `<DemoBadge />` z layoutu.
