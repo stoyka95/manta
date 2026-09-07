@@ -36,13 +36,33 @@ síťovým výstupem (egress proxy s allowlistem). Ověřeno:
 | Framework | **Next.js 15** (App Router, TS) | SSG/SSR pro SEO, snadný Vercel deploy, file-based routing = čistá IA |
 | Styling | **Tailwind CSS v4** | rychlé sestavení design tokenů z `02-design.md`, výkon |
 | Animace | **Framer Motion (`motion`)** + CSS keyframes | deklarativní scroll/hover animace popsané v design docu |
-| Fonty | **`@fontsource/poppins` (nadpisy) + `@fontsource/inter` (text)** | self-hosted, žádné runtime volání na Google |
+| Fonty | **`@fontsource/poppins` (nadpisy) + `@fontsource/inter` (text)** | self-hosted, žádné runtime volání na Google — importovat plné per-weight CSS, viz past níže |
 | Ikony | **`lucide-react`** (doladěné vlastní SVG pro brand ilustrace) | lehké, tree-shakable |
 | Formuláře | React state + `zod` validace (client-side, bez backendu) | demo funkčnost bez nutnosti serveru/DB |
 | Rezervace | vlastní `BookingWidget` (den × dráha × hodina, výpočet ceny) | interaktivní demo rezervačního systému, viz sekce 9 |
 | Obrázky loga | vlastní SVG → rasterizace přes `sharp` (node skript) do PNG | needed „logo → PNG“ zadání |
 | Hosting | **Vercel** | zadání uživatele |
 | Analytika (fáze 2) | `@vercel/analytics` + PostHog (anonymní) | zadání uživatele — připojuje se až po potvrzení nasazení |
+
+### 2.1 Past: `@fontsource/*/latin-ext-*.css` nestačí
+
+`@fontsource/poppins/latin-ext-700.css` deklaruje `@font-face` **bez
+`unicode-range`**, ale samotný woff2 obsahuje jen rozšířenou latinku
+(U+0100–02BA a dál). Základní latinka — tedy `a–z` i `á é í ó ú ý` — v
+souboru **není**. Prohlížeč proto tyto glyfy vykreslil systémovým fontem
+a Poppins/Inter se projevily jen na `ě š č ř ž ů ď ť ň`. Navenek to
+vypadalo jako „diakritika je tlustší než zbytek textu“, ve skutečnosti
+byl v brand fontu jen ten zlomek znaků.
+
+Správně je importovat **plné per-weight soubory** (`@fontsource/poppins/700.css`),
+které deklarují každý subset s vlastním `unicode-range`. Prohlížeč pak
+stáhne jen to, co stránka potřebuje — pro češtinu latin + latin-ext,
+devanagari nikdy (ověřeno v síťovém panelu: 9 souborů, ~150 kB).
+
+Ověřovací nástroj: `node scripts/font-audit.mjs <url>` — přes CDP
+`CSS.getPlatformFontsForNode` vypíše, kterými **skutečnými** fonty
+prohlížeč jednotlivé prvky vykreslil. Když u řádku svítí `MIX!`, míchají
+se dva fonty a něco je špatně.
 
 ## 3. Struktura projektu (návrh)
 

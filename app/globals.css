@@ -1,12 +1,19 @@
 @import "tailwindcss";
-@import "@fontsource/poppins/latin-ext-500.css";
-@import "@fontsource/poppins/latin-ext-600.css";
-@import "@fontsource/poppins/latin-ext-700.css";
-@import "@fontsource/poppins/latin-ext-800.css";
-@import "@fontsource/inter/latin-ext-400.css";
-@import "@fontsource/inter/latin-ext-500.css";
-@import "@fontsource/inter/latin-ext-600.css";
-@import "@fontsource/inter/latin-ext-700.css";
+
+/* Plné per-weight soubory, NE `latin-ext-*.css`: ty deklarují @font-face
+   bez `unicode-range`, ale obsahují jen rozšířenou latinku. Základní
+   latinka (a–z, á, é, í, ó, ú) v nich chybí, takže ji prohlížeč kreslil
+   systémovým fontem a Poppins/Inter se objevily jen na ě/š/č/ř/ž/ů.
+   Tyto soubory mají `unicode-range` u každého subsetu, takže se stáhne
+   jen latin + latin-ext (devanagari nikdy — žádný glyf ho nepotřebuje). */
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+@import "@fontsource/poppins/800.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 
 :root {
   --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;

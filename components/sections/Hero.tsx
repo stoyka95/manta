@@ -23,7 +23,8 @@ export function Hero() {
           </Reveal>
           <Reveal delay={0.08} as="h1" className="mt-6 font-display text-[2.6rem] font-extrabold leading-[1.05] tracking-tight text-ink-900 sm:text-6xl lg:text-[4.2rem]">
             Strike zážitek,{" "}
-            <span className="bg-gradient-to-r from-ocean-600 to-gold-500 bg-clip-text text-transparent">
+            {/* na velkých displejích drží gradientová část vlastní řádek */}
+            <span className="bg-gradient-to-r from-ocean-600 to-gold-500 bg-clip-text text-transparent lg:block">
               ne jen hru.
             </span>
           </Reveal>
