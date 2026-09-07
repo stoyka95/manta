@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/latin-ext-600.css";
+@import "@fontsource/plus-jakarta-sans/latin-ext-700.css";
+@import "@fontsource/plus-jakarta-sans/latin-ext-800.css";
+@import "@fontsource/inter/latin-ext-400.css";
+@import "@fontsource/inter/latin-ext-500.css";
+@import "@fontsource/inter/latin-ext-600.css";
+@import "@fontsource/inter/latin-ext-700.css";
+
+:root {
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Manta Ocean */
+  --color-ocean-100: #eaf6fa;
+  --color-ocean-200: #cbeaf3;
+  --color-ocean-300: #9fdbea;
+  --color-ocean-400: #5fbedd;
+  --color-ocean-500: #2e9bc7;
+  --color-ocean-600: #1c7bae;
+  --color-ocean-700: #145c87;
+  --color-ocean-800: #104669;
+  --color-ocean-900: #0d3a56;
+
+  /* Ink */
+  --color-ink-500: #5c7b82;
+  --color-ink-700: #33535b;
+  --color-ink-900: #1e353b;
+
+  /* Strike Gold */
+  --color-gold-200: #fdecc4;
+  --color-gold-300: #fbdb96;
+  --color-gold-400: #f8c452;
+  --color-gold-500: #f3a824;
+  --color-gold-600: #d98a12;
+
+  /* Glow */
+  --color-glow-pink: #ff5fa0;
+  --color-glow-violet: #8b6bff;
+  --color-glow-cyan: #3fe8d0;
+
+  /* Surfaces */
+  --color-surface: #ffffff;
+  --color-bg: #f6fbfc;
+  --color-bg-alt: #eff7f8;
+  --color-line: #dceaee;
+
+  --shadow-soft: 0 1px 2px rgba(30, 53, 59, 0.04), 0 12px 32px rgba(30, 53, 59, 0.08);
+  --shadow-lift: 0 8px 16px rgba(30, 53, 59, 0.06), 0 24px 48px -12px rgba(20, 92, 135, 0.25);
+}
+
+@theme inline {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+
+  --color-ocean-100: var(--color-ocean-100);
+  --color-ocean-200: var(--color-ocean-200);
+  --color-ocean-300: var(--color-ocean-300);
+  --color-ocean-400: var(--color-ocean-400);
+  --color-ocean-500: var(--color-ocean-500);
+  --color-ocean-600: var(--color-ocean-600);
+  --color-ocean-700: var(--color-ocean-700);
+  --color-ocean-800: var(--color-ocean-800);
+  --color-ocean-900: var(--color-ocean-900);
+
+  --color-ink-500: var(--color-ink-500);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-900: var(--color-ink-900);
+
+  --color-gold-200: var(--color-gold-200);
+  --color-gold-300: var(--color-gold-300);
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-600: var(--color-gold-600);
+
+  --color-glow-pink: var(--color-glow-pink);
+  --color-glow-violet: var(--color-glow-violet);
+  --color-glow-cyan: var(--color-glow-cyan);
+
+  --color-surface: var(--color-surface);
+  --color-bg: var(--color-bg);
+  --color-bg-alt: var(--color-bg-alt);
+  --color-line: var(--color-line);
+
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3.2s ease-in-out infinite;
+  --animate-marquee: marquee 32s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; filter: blur(18px); }
+  50% { opacity: 0.9; filter: blur(24px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink-900);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-gold-300);
+  color: var(--color-ink-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ocean-600);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
