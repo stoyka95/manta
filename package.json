@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "fonts": "python3 scripts/build-fonts.py",
+    "audit:perf": "node scripts/perf-audit.mjs",
+    "audit:fonts": "node scripts/font-audit.mjs"
   },
   "dependencies": {
     "@fontsource/inter": "^5.3.0",

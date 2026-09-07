@@ -51,6 +51,21 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="cs" className="h-full scroll-smooth antialiased">
+      <head>
+        {/* Fonty nad ohybem: bez preloadu je prohlížeč objeví až po
+            parsování CSS, prohodí je po prvním vykreslení a posune layout
+            (na /rezervace to dělalo CLS 0,39). Preload je stihne dřív. */}
+        {["poppins-600", "poppins-700", "poppins-800", "inter-400"].map((f) => (
+          <link
+            key={f}
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            href={`/fonts/${f}.woff2`}
+            crossOrigin="anonymous"
+          />
+        ))}
+      </head>
       <body className="flex min-h-full flex-col bg-bg font-body text-ink-900">
         <script
           type="application/ld+json"

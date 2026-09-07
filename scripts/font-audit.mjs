@@ -3,7 +3,7 @@
 // (typicky česká diakritika) nekreslí náhradním systémovým fontem.
 import { chromium } from "playwright-core";
 
-const base = process.argv[2] ?? "http://localhost:4500";
+const base = process.argv[2] ?? "http://localhost:3000";
 const browser = await chromium.launch({
   executablePath: "/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
 });

@@ -1,23 +1,14 @@
 @import "tailwindcss";
 
-/* Plné per-weight soubory, NE `latin-ext-*.css`: ty deklarují @font-face
-   bez `unicode-range`, ale obsahují jen rozšířenou latinku. Základní
-   latinka (a–z, á, é, í, ó, ú) v nich chybí, takže ji prohlížeč kreslil
-   systémovým fontem a Poppins/Inter se objevily jen na ě/š/č/ř/ž/ů.
-   Tyto soubory mají `unicode-range` u každého subsetu, takže se stáhne
-   jen latin + latin-ext (devanagari nikdy — žádný glyf ho nepotřebuje). */
-@import "@fontsource/poppins/500.css";
-@import "@fontsource/poppins/600.css";
-@import "@fontsource/poppins/700.css";
-@import "@fontsource/poppins/800.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
+/* Self-hostované fonty ořezané na češtinu; @font-face generuje
+   scripts/build-fonts.py do app/fonts.css. Součástí jsou i "* Fallback"
+   rodiny nad Arialem s dopočítaným `size-adjust`, aby text před
+   načtením fontu zabíral stejné místo a přehození nehýbalo layoutem. */
+@import "./fonts.css";
 
 :root {
-  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", "Poppins Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
 
   /* Manta Ocean */
   --color-ocean-100: #eaf6fa;

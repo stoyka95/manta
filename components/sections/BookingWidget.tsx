@@ -136,11 +136,16 @@ export function BookingWidget() {
 
   /* --------------------------------------------------------------- skeleton */
 
+  // Kostra musí mít přesně rozměry hotového widgetu, jinak hydratace
+  // posune stránku (obsah je svisle vystředěný, takže se posune celý).
+  // Souhrn je na mobilu `fixed` u spodní hrany, tzn. mimo tok — proto se
+  // pod `lg` vykresluje jen jeden blok. Výšky jsou naměřené, viz
+  // scripts/perf-audit.mjs.
   if (!isClient || !selectedDate) {
     return (
-      <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_310px]">
-        <div className="h-[386px] animate-pulse rounded-3xl border border-line bg-white/60" />
-        <div className="h-[386px] animate-pulse rounded-3xl border border-line bg-white/60" />
+      <div className="grid gap-4 pb-24 lg:grid-cols-[minmax(0,1fr)_310px] lg:pb-0">
+        <div className="h-[377px] animate-pulse rounded-3xl border border-line bg-white/60 sm:h-[362px]" />
+        <div className="hidden h-[394px] animate-pulse rounded-3xl border border-line bg-white/60 lg:block" />
       </div>
     );
   }

@@ -54,15 +54,64 @@ a Poppins/Inter se projevily jen na `ě š č ř ž ů ď ť ň`. Navenek to
 vypadalo jako „diakritika je tlustší než zbytek textu“, ve skutečnosti
 byl v brand fontu jen ten zlomek znaků.
 
-Správně je importovat **plné per-weight soubory** (`@fontsource/poppins/700.css`),
-které deklarují každý subset s vlastním `unicode-range`. Prohlížeč pak
-stáhne jen to, co stránka potřebuje — pro češtinu latin + latin-ext,
-devanagari nikdy (ověřeno v síťovém panelu: 9 souborů, ~150 kB).
+Prvním řešením byl import **plných per-weight souborů**
+(`@fontsource/poppins/700.css`), které deklarují každý subset s vlastním
+`unicode-range`. To past odstranilo, ale znamenalo 10 souborů a ~150 kB
+fontů na stránku — samotný `inter-latin-ext-400` má 34 kB, z toho
+čeština potřebuje pár set znaků.
+
+Finální stav: fonty se sestavují **vlastním subsetem** — viz
+`scripts/build-fonts.py` (§2.2).
 
 Ověřovací nástroj: `node scripts/font-audit.mjs <url>` — přes CDP
 `CSS.getPlatformFontsForNode` vypíše, kterými **skutečnými** fonty
 prohlížeč jednotlivé prvky vykreslil. Když u řádku svítí `MIX!`, míchají
 se dva fonty a něco je špatně.
+
+### 2.2 Vlastní subset fontů (`scripts/build-fonts.py`)
+
+Skript slije `latin` + `latin-ext` woff2 z `@fontsource` do jednoho
+souboru na váhu, ořeže ho na znaky, které web používá (základní latinka,
+Latin-1, Latin Extended-A, české uvozovky, pomlčky, €, šipky) a uloží do
+`public/fonts/`. Vedle toho generuje `app/fonts.css`.
+
+| | před | po |
+|---|---|---|
+| souborů na stránku | 10 | 6 |
+| fonty na `/` | 144 kB | 91 kB |
+| fonty na podstránce | 120 kB | 71 kB |
+
+Tři důsledky, kvůli kterým to stojí za vlastní krok v pipeline:
+
+1. **Past z §2.1 přestane existovat.** Jeden soubor na váhu pokrývá
+   celou češtinu, není co splést s `unicode-range`.
+2. **Stabilní cesta v `/public`** dovolí `<link rel="preload">`
+   v `app/layout.tsx` (Poppins 600/700/800 + Inter 400, tedy vše nad
+   ohybem). Bez preloadu prohlížeč fonty objeví až po stažení a
+   parsování CSS.
+3. **Dopočítaný fallback.** Skript ke každé váze vygeneruje
+   `@font-face` rodinu `"Poppins Fallback"` / `"Inter Fallback"` nad
+   Arialem se `size-adjust`, `ascent-override` a `descent-override`
+   spočítanými z metrik cílového fontu. Text ve fallbacku tak zabírá
+   stejné místo a přehození fontu **nehýbe layoutem**.
+
+Průměrná šířka znaku se váží četností písmen v **reálném textu webu**
+(čte se z předrenderovaného HTML v `.next/server/app/*.html`), takže
+`size-adjust` sedí na češtinu, ne na obecnou abecedu. Metriky Arialu se
+čtou z Liberation Sans, který je s ním záměrně metricky shodný.
+
+Skript se pouští ručně a výstup se commituje — Vercel build fonttools
+nemá:
+
+```bash
+pip install fonttools brotli
+npm run fonts        # = python3 scripts/build-fonts.py
+```
+
+Sada vah v `FAMILIES` musí odpovídat tomu, co se v kódu skutečně
+používá (`font-semibold` = 600, `font-bold` = 700, `font-extrabold` =
+800; Inter navíc 400 jako základ). Váha použitá v CSS, ale chybějící
+v subsetu, se vykreslí synteticky ztučnělá.
 
 ## 3. Struktura projektu (návrh)
 
@@ -222,3 +271,49 @@ nikdy neroztahují.
    nástroje v této session).
 3. Produkční build ověřen (`next build`) před samotným deployem.
 4. Po nasazení: sdílet živou URL, poté navázat fázi analytiky (bod 8).
+
+## 12. Výkon — naměřeno na produkčním buildu
+
+`npm run audit:perf http://localhost:3000` (Chromium, 1366×768, po
+`npm run build && npm start`). Bajty jsou **po drátě**, tj. gzip.
+
+| route | HTML | JS | CSS | fonty | celkem | LCP | CLS |
+|---|---|---|---|---|---|---|---|
+| `/` | 19,8 kB | 333 kB | 9,4 kB | 92,5 kB | 507 kB | 188 ms | 0,000 |
+| `/bowling` | 15,1 kB | 333 kB | 9,4 kB | 70,9 kB | 481 kB | 120 ms | 0,000 |
+| `/cenik` | 11,1 kB | 333 kB | 9,4 kB | 70,9 kB | 477 kB | 120 ms | 0,000 |
+| `/galerie` | 17,7 kB | 333 kB | 9,4 kB | 70,9 kB | 483 kB | 120 ms | 0,000 |
+| `/rezervace` | 8,4 kB | 333 kB | 9,4 kB | 70,9 kB | 474 kB | 124 ms | 0,000 |
+| `/faq` | 10,7 kB | 335 kB | 9,4 kB | 70,9 kB | 478 kB | 116 ms | 0,000 |
+
+Všech 18 rout je předrenderovaných staticky (`○ (Static)`), takže
+crawler dostane hotové HTML — bez JavaScriptu vidí na homepage 632 slov,
+`h1`, 7× `h2`, 27 interních odkazů a JSON-LD.
+
+### 12.1 Odstraněné CLS
+
+Původně měla `/rezervace` **CLS 0,388** (desktop) a 0,108 (mobil) —
+hluboko v pásmu „poor“ (> 0,25). Dvě příčiny, obě odstraněny:
+
+1. **Přehození fontu.** Fallback měl jiné metriky než Poppins/Inter,
+   takže se po načtení fontu změnila výška obsahu. Obsah je na
+   `/rezervace` svisle vystředěný (`min-h-svh` + `justify-center`), takže
+   se posunul celý blok 1240×506 px. Řešení: dopočítaný fallback
+   se `size-adjust` (§2.2). Samotný `preload` nestačil — první
+   vykreslení proběhne dřív, než je font hotový.
+   → 0,388 → 0,002
+2. **Hydratace rezervačního widgetu.** Widget potřebuje `new Date()`,
+   takže se na serveru vykreslí kostra. Ta měla dva bloky 386 px, ale
+   hotový widget má na mobilu jen jeden (souhrn je `fixed` mimo tok).
+   Řešení: kostra kopíruje rozměry hotového stavu.
+   → 0,092 → 0,000
+
+### 12.2 Kde je strop
+
+333 kB JS je cena za React + Next App Router + `motion`. Statický
+generátor bez klientského frameworku (Astro, Eleventy) by na stejném
+obsahu poslal jednotky kB. Pro SEO to **není** rozdíl v tom, co crawler
+vidí — HTML je v obou případech hotové — ale je to rozdíl v Core Web
+Vitals na pomalém mobilu. Snížit to jde jedině ubráním animací
+(`LazyMotion`, méně `"use client"` komponent); v tomhle projektu jsou
+animace záměrná součást zadání, takže číslo zůstává.

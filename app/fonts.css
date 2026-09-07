@@ -1,0 +1,115 @@
+/* Generováno scripts/build-fonts.py — needitovat ručně. */
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/poppins-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins Fallback";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 109.08%;
+  ascent-override: 96.26%;
+  descent-override: 32.09%;
+  line-gap-override: 9.17%;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/poppins-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins Fallback";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 108.30%;
+  ascent-override: 96.95%;
+  descent-override: 32.32%;
+  line-gap-override: 9.23%;
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/poppins-800.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Poppins Fallback";
+  font-style: normal;
+  font-weight: 800;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 107.72%;
+  ascent-override: 97.48%;
+  descent-override: 32.49%;
+  line-gap-override: 9.28%;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/inter-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 105.61%;
+  ascent-override: 91.73%;
+  descent-override: 22.84%;
+  line-gap-override: 0.00%;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/inter-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 600;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 105.53%;
+  ascent-override: 91.80%;
+  descent-override: 22.86%;
+  line-gap-override: 0.00%;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/inter-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter Fallback";
+  font-style: normal;
+  font-weight: 700;
+  src: local("Arial"), local("Helvetica"), local("Liberation Sans");
+  size-adjust: 105.46%;
+  ascent-override: 91.86%;
+  descent-override: 22.87%;
+  line-gap-override: 0.00%;
+}
