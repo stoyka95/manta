@@ -12,7 +12,7 @@ export function Logo({ dark = false, className }: { dark?: boolean; className?: 
       <MantaMark className="h-9 w-auto transition-transform duration-300 group-hover:scale-105" />
       <span
         className={cn(
-          "font-display text-2xl font-extrabold tracking-tight",
+          "font-display text-2xl font-bold -tracking-[0.01em]",
           dark ? "text-white" : "text-ink-900"
         )}
       >

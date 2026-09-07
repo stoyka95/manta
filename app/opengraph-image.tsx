@@ -11,6 +11,8 @@ export default async function Image() {
   const interDir = join(process.cwd(), "node_modules/@fontsource/inter/files");
   const fontLatin = readFileSync(join(poppinsDir, "poppins-latin-800-normal.woff"));
   const fontLatinExt = readFileSync(join(poppinsDir, "poppins-latin-ext-800-normal.woff"));
+  // wordmark loga se sází stejnou vahou jako v logo souboru (700), ne 800
+  const fontLogo = readFileSync(join(poppinsDir, "poppins-latin-700-normal.woff"));
   const fontInter = readFileSync(join(interDir, "inter-latin-400-normal.woff"));
   const fontInterExt = readFileSync(join(interDir, "inter-latin-ext-400-normal.woff"));
 
@@ -29,19 +31,25 @@ export default async function Image() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
-          <svg width="96" height="96" viewBox="20 -10 600 370" fill="none">
-            <circle cx="470" cy="160" r="125" fill="#F3A824" />
-            <circle cx="503" cy="112" r="16" fill="#FFFFFF" fillOpacity={0.92} />
-            <circle cx="548" cy="132" r="12.5" fill="#FFFFFF" fillOpacity={0.92} />
-            <circle cx="516" cy="158" r="11" fill="#FFFFFF" fillOpacity={0.92} />
-            <polygon points="255,50 230,8 276,46" fill="#7FCFE6" />
-            <polygon points="299,40 320,4 336,46" fill="#7FCFE6" />
-            <polygon
-              points="30,190 170,80 270,50 310,35 355,95 520,200 615,330 430,290 330,270 150,300 60,345"
-              fill="#B9E7F2"
-            />
+          <svg width="96" height="96" viewBox="29 13 161 156">
+            <circle cx="131" cy="63" r="46" fill="#F9D086" />
+            <circle cx="133" cy="49" r="5" fill="#FFFFFF" />
+            <circle cx="153" cy="46" r="4" fill="#FFFFFF" />
+            <circle cx="147" cy="60" r="5" fill="#FFFFFF" />
+            <polygon fill="#89C8E1" points="36,72 102,67 147,97 104,130 80,165 97,126 73,99" />
+            <polygon fill="#55A3D0" points="129,79 132,108 108,133 152,134 186,148 174,119 149,75" />
+            <polygon fill="#B8D8E1" points="33,73 87,66 73,100" />
+            <polygon fill="#B8D8E1" points="123,60 103,67 98,130 128,78" />
           </svg>
-          <span style={{ fontSize: 64, color: "white", fontWeight: 800 }}>
+          <span
+            style={{
+              fontSize: 64,
+              color: "white",
+              fontWeight: 700,
+              fontFamily: "PoppinsLogo",
+              letterSpacing: "-0.01em",
+            }}
+          >
             manta
           </span>
         </div>
@@ -77,6 +85,7 @@ export default async function Image() {
       fonts: [
         { name: "Poppins", data: fontLatin, weight: 800, style: "normal" },
         { name: "PoppinsExt", data: fontLatinExt, weight: 800, style: "normal" },
+        { name: "PoppinsLogo", data: fontLogo, weight: 700, style: "normal" },
         { name: "Inter", data: fontInter, weight: 400, style: "normal" },
         { name: "InterExt", data: fontInterExt, weight: 400, style: "normal" },
       ],

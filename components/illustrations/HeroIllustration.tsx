@@ -93,7 +93,9 @@ export function HeroIllustration() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.div
-            className="w-[85%]"
+            /* značka je nově čtvercová (viewBox 161×156), ne na šířku —
+               větší podíl šířky drží hero vizuálu stejnou váhu jako dřív */
+            className="w-[125%]"
             animate={{ y: [0, -14, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
