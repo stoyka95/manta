@@ -55,12 +55,15 @@ export function Header() {
         </nav>
 
         <div className="hidden items-center gap-2 lg:flex xl:gap-3">
-          {/* Compact icon-only controls: lg–xl, when the pill runs out of room */}
+          {/* Compact icon-only controls: lg–xl, or any width once scrolled */}
           <a
             href={site.phoneHref}
             aria-label={site.phone}
             title={site.phone}
-            className="flex size-10 flex-none items-center justify-center rounded-full bg-ocean-100 text-ocean-700 transition-colors hover:bg-ocean-200 xl:hidden"
+            className={cn(
+              "flex size-10 flex-none items-center justify-center rounded-full bg-ocean-100 text-ocean-700 transition-colors hover:bg-ocean-200",
+              !scrolled && "xl:hidden"
+            )}
           >
             <Phone className="size-4" />
           </a>
@@ -68,20 +71,26 @@ export function Header() {
             href="/rezervace"
             aria-label="Rezervovat dráhu"
             title="Rezervovat dráhu"
-            className="flex size-10 flex-none items-center justify-center rounded-full bg-gold-500 text-ink-900 transition-transform hover:scale-105 xl:hidden"
+            className={cn(
+              "flex size-10 flex-none items-center justify-center rounded-full bg-gold-500 text-ink-900 transition-transform hover:scale-105",
+              !scrolled && "xl:hidden"
+            )}
           >
             <CalendarCheck className="size-4" />
           </NextLink>
 
-          {/* Full controls: xl+ */}
+          {/* Full controls: xl+, only while not scrolled */}
           <a
             href={site.phoneHref}
-            className="hidden items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-ink-700 hover:text-ocean-700 xl:flex"
+            className={cn(
+              "hidden items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-ink-700 hover:text-ocean-700",
+              !scrolled && "xl:flex"
+            )}
           >
             <Phone className="size-4" />
             {site.phone}
           </a>
-          <span className="hidden xl:inline-flex">
+          <span className={cn("hidden", !scrolled && "xl:inline-flex")}>
             <Button href="/rezervace" size="md">
               Rezervovat dráhu
             </Button>
