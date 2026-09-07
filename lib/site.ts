@@ -2,7 +2,7 @@ export const site = {
   name: "Manta",
   fullName: "Bowling Manta",
   claim: "Strike zážitek, ne jen hru.",
-  url: "https://bowling-manta-stoyka95s-projects.vercel.app",
+  url: "https://bowling-manta.vercel.app",
   phone: "+420 235 302 220",
   phoneHref: "tel:+420235302220",
   email: "info@bowlingmanta.cz",
