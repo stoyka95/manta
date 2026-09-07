@@ -3,6 +3,8 @@ import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
+import { CountUp } from "@/components/ui/CountUp";
+import { Magnetic } from "@/components/ui/Magnetic";
 import { HeroIllustration } from "@/components/illustrations/HeroIllustration";
 import { hero, stats } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -29,9 +31,11 @@ export function Hero() {
             {hero.text}
           </Reveal>
           <Reveal delay={0.24} className="mt-9 flex flex-wrap items-center gap-4">
-            <Button href={hero.ctaPrimary.href} size="lg">
-              {hero.ctaPrimary.label}
-            </Button>
+            <Magnetic>
+              <Button href={hero.ctaPrimary.href} size="lg">
+                {hero.ctaPrimary.label}
+              </Button>
+            </Magnetic>
             <Button href={hero.ctaSecondary.href} variant="outline" size="lg">
               {hero.ctaSecondary.label}
             </Button>
@@ -51,7 +55,14 @@ export function Hero() {
             {stats.map((s) => (
               <div key={s.label}>
                 <p className="font-display text-2xl font-extrabold text-ink-900 sm:text-3xl">
-                  {s.plain ? s.value : `${s.value}${s.suffix}`}
+                  {s.plain ? (
+                    s.value
+                  ) : (
+                    <>
+                      <CountUp value={s.value} />
+                      {s.suffix}
+                    </>
+                  )}
                 </p>
                 <p className="mt-1 text-xs text-ink-500 sm:text-sm">{s.label}</p>
               </div>

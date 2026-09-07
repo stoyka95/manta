@@ -29,7 +29,7 @@ export default function RestauraceABarPage() {
       <PageHero
         eyebrow="Restaurace & bar"
         title="Kuchyně, která vydrží celou hru."
-        text="Kontinentální kuchyně s poledním menu 11:00–16:00, servírovaná přímo k dráze — hra se kvůli objednávce nezastaví."
+        text="Kontinentální kuchyně s poledním menu 11:00–15:00. Restaurace sedí nad dráhami s výhledem na hru, takže servis nikdy nepřeruší zápas."
         tone="gold"
       />
 

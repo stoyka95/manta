@@ -6,7 +6,6 @@ export const hero = {
   text: "6 profesionálních drah, GLOW bowling, kuchyně, bar a vinotéka pod jednou střechou. Ať jedete na rande, s dětmi nebo s celou firmou — v Mantě máte dráhu, stůl i náladu zamluvenou najednou.",
   ctaPrimary: { label: "Rezervovat dráhu", href: "/rezervace" },
   ctaSecondary: { label: "Prohlédnout ceník", href: "/cenik" },
-  trust: "500+ hodnocení · bezbariérový přístup",
 };
 
 export const stats = [
@@ -133,7 +132,7 @@ export const faqs = [
   },
   {
     q: "Kolik stojí hodina bowlingu v Mantě?",
-    a: "Cena za dráhu a hodinu se pohybuje od 590 Kč mimo špičku do 890 Kč o GLOW večerech o víkendu. Přesný ceník najdete na stránce Ceník.",
+    a: "Cena za dráhu a hodinu se pohybuje od 330 Kč přes den v týdnu do 550 Kč o víkendových večerech. Přesný ceník najdete na stránce Ceník.",
   },
   {
     q: "Kolik hráčů se vejde na jednu dráhu?",
@@ -191,14 +190,14 @@ export const menuHighlights = [
     title: "Rychlovky k dráze",
     text: "Burgery, hranolky a wingsy, které vydrží celou hru.",
     items: [
-      { name: "Manta Strike Burger", price: "219 Kč" },
+      { name: "Manta Bacon Burger (150 g)", price: "169 Kč" },
+      { name: "Chilli Burger (150 g)", price: "169 Kč" },
       { name: "Hranolky s dipem", price: "89 Kč" },
-      { name: "Kuřecí wingsy", price: "179 Kč" },
     ],
   },
   {
     title: "Polední menu",
-    text: "Polévka + hlavní jídlo, servírované 11:00–16:00.",
+    text: "Polévka + hlavní jídlo, servírované 11:00–15:00.",
     items: [
       { name: "Polední menu (Po–Pá)", price: "159 Kč" },
       { name: "Polévka dne", price: "59 Kč" },
@@ -232,7 +231,7 @@ export const barHighlights = [
 export const eventPackages = [
   {
     title: "Narozeniny",
-    text: "Dráha + jídlo + dort na přání, pro děti i dospělé.",
+    text: "Lehké dětské koule, skluz na kouli a zatahovací mantinely — plus dekorace stolu a servis dortu na přání.",
     icon: "cake" as const,
   },
   {
@@ -260,28 +259,43 @@ export const eventSteps = [
 ];
 
 // --- Ceník ---
+// Zdroj: veřejně dostupné agregátory (ceník samotné stránky bowlingmanta.cz/cz/bowling/cenik/
+// nebylo možné v tomto prostředí přímo stáhnout — viz docs/00-scraping.md). Před ostrým nasazením
+// doporučujeme ověřit proti aktuálnímu ceníku na místě.
 export const bowlingPricing = [
-  { label: "Po–Pá do 17:00", price: "590 Kč", unit: "/hod. za dráhu" },
-  { label: "Po–Ne od 17:00 / víkend", price: "790 Kč", unit: "/hod. za dráhu", featured: true },
-  { label: "GLOW večer (pá–so)", price: "890 Kč", unit: "/hod. za dráhu" },
+  { label: "Po–Pá 11:00–14:00", price: "330 Kč", unit: "/hod. za dráhu" },
+  { label: "Po–Pá 14:00–17:00", price: "430 Kč", unit: "/hod. za dráhu" },
+  { label: "Po–Pá od 17:00", price: "530 Kč", unit: "/hod. za dráhu", featured: true },
+  { label: "Víkend a svátky 11:00–17:00", price: "450 Kč", unit: "/hod. za dráhu" },
+  { label: "Víkend a svátky od 17:00", price: "550 Kč", unit: "/hod. za dráhu", featured: true },
+];
+
+export const bowlingPricingTeaser = [
+  bowlingPricing[0],
+  bowlingPricing[2],
+  bowlingPricing[4],
 ];
 
 export const pricingExtras = [
-  { label: "Půjčení obuvi", price: "50 Kč / pár" },
-  { label: "Ponožky na jedno použití", price: "30 Kč" },
-  { label: "Studentská sleva (Po–Pá do 17:00)", price: "−15 %" },
+  { label: "Broušení/leštění dráhy na přání", price: "50 Kč" },
+  { label: "Dětská narozeninová dekorace stolu", price: "85 Kč / dítě" },
+  { label: "Servis dortu", price: "100 Kč" },
 ];
 
 export const groupPackages = [
-  { title: "Narozeninový", text: "2 hod. dráha, boty, pizza/burger menu pro každého.", price: "od 350 Kč/os." },
+  {
+    title: "Dětská narozeninová párty",
+    text: "Lehké dětské koule, zatahovací mantinely a skluz na kouli pro nejmenší. Dekorace stolu, servis dortu, personál vám s organizací asistuje.",
+    price: "dekorace 85 Kč/dítě",
+  },
   { title: "Firemní", text: "Pronájem 3+ drah, catering, welcome drink.", price: "na míru — poptávka" },
-  { title: "Ligový tým", text: "Sezónní členství v lize + tréninkové sloty.", price: "2 900 Kč/sezóna" },
+  { title: "Ligový tým", text: "Sezónní členství v lize + tréninkové sloty.", price: "na dotaz" },
 ];
 
 export const foodPricing = [
-  { label: "Burger", price: "219 Kč" },
+  { label: "Manta Bacon Burger (150 g)", price: "169 Kč" },
+  { label: "Chilli Burger (150 g)", price: "169 Kč" },
   { label: "Polední menu", price: "159 Kč" },
   { label: "Nachos sdílené", price: "249 Kč" },
-  { label: "Pivo 0,3 l", price: "55 Kč" },
-  { label: "Sklenka vína", price: "89 Kč" },
+  { label: "Průměrný účet na hosta", price: "~300 Kč" },
 ];

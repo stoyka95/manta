@@ -67,7 +67,7 @@ kontrastem.
 
 ## 3. Typografie
 
-- **Display/nadpisy:** `Plus Jakarta Sans` (700–800) — geometrická, zaoblené
+- **Display/nadpisy:** `Poppins` (500–800) — geometrická, zaoblené
   tvary ladí s kulatým wordmarkem loga. Velké H1 v hero sekcích, `clamp()`
   fluidní velikosti.
 - **Text/UI:** `Inter` (400–600) — vysoká čitelnost, plná diakritika CZ,

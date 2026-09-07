@@ -16,11 +16,12 @@ export const site = {
   founded: 2002,
   lanes: 6,
   capacity: 150,
-  rating: { value: 4.6, count: 500 },
+  rating: { value: 4.0, count: 1075 },
   hours: [
     { days: "Neděle – Čtvrtek", time: "11:00 – 00:00" },
     { days: "Pátek – Sobota", time: "11:00 – 01:00" },
   ],
+  phoneOfficeHours: "Po–Pá 10:00–17:00 (mimo tyto hodiny pište na e-mail)",
   social: {
     facebook: "https://facebook.com",
     instagram: "https://instagram.com",

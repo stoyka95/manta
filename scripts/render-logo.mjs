@@ -12,7 +12,7 @@ const markSvg = readFileSync(path.resolve(outDir, "manta-mark.svg"), "utf8");
 
 const fontPath = path.resolve(
   root,
-  "node_modules/@fontsource/plus-jakarta-sans/files/plus-jakarta-sans-latin-800-normal.woff2"
+  "node_modules/@fontsource/poppins/files/poppins-latin-ext-800-normal.woff2"
 );
 const fontBase64 = readFileSync(fontPath).toString("base64");
 
@@ -20,7 +20,7 @@ const html = `<!doctype html>
 <html><head><meta charset="utf-8">
 <style>
   @font-face {
-    font-family: 'PJS';
+    font-family: 'Poppins';
     src: url(data:font/woff2;base64,${fontBase64}) format('woff2');
     font-weight: 800;
   }
@@ -29,8 +29,8 @@ const html = `<!doctype html>
   .square svg{width:520px;height:520px;}
   .lockup{display:inline-flex;align-items:center;gap:40px;padding:40px;background:transparent;}
   .lockup svg{width:260px;height:260px;flex:none;}
-  .wordmark{font-family:'PJS',sans-serif;font-weight:800;font-size:170px;color:#1E353B;
-    letter-spacing:-4px;display:flex;align-items:flex-start;line-height:1;position:relative;}
+  .wordmark{font-family:'Poppins',sans-serif;font-weight:800;font-size:170px;color:#1E353B;
+    letter-spacing:-2px;display:flex;align-items:flex-start;line-height:1;position:relative;}
   .reg{font-size:44px;font-weight:800;margin-left:6px;margin-top:6px;}
 </style></head>
 <body>

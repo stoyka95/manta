@@ -33,13 +33,13 @@ export default function CenikPage() {
       <PageHero
         eyebrow="Ceník"
         title="Transparentní ceny, žádná překvapení."
-        text="Platíte za dráhu a hodinu, ne za hráče. Ceny níže jsou demo hodnoty pro účely tohoto webu — aktuální ceník platí ten na místě."
+        text="Platíte za dráhu a hodinu, ne za hráče — cena roste jen s denní dobou, ne s počtem hráčů."
       />
 
       <section className="pb-20 sm:pb-28">
         <Container>
           <SectionHeading eyebrow="Bowling" title="Cena za dráhu / hodinu" text="Max. 6 hráčů na dráhu." />
-          <RevealGroup className="mt-10 grid gap-5 sm:grid-cols-3">
+          <RevealGroup className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {bowlingPricing.map((tier) => (
               <RevealItem
                 key={tier.label}
@@ -68,6 +68,10 @@ export default function CenikPage() {
                 <span className="font-display font-semibold text-ink-900">{e.price}</span>
               </div>
             ))}
+          </Reveal>
+          <Reveal className="mt-4 text-sm text-ink-500">
+            Ceny čerpáme z veřejně dostupných zdrojů — před rezervací je vždy dobré ověřit aktuální
+            ceník přímo na místě nebo telefonicky.
           </Reveal>
         </Container>
       </section>

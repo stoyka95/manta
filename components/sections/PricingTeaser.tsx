@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealGroup } from "@/components/ui/Reveal";
-import { bowlingPricing } from "@/lib/content";
+import { bowlingPricingTeaser } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 export function PricingTeaser() {
@@ -19,7 +19,7 @@ export function PricingTeaser() {
 
           <div>
             <RevealGroup className="grid gap-4 sm:grid-cols-3">
-              {bowlingPricing.map((tier) => (
+              {bowlingPricingTeaser.map((tier) => (
                 <div
                   key={tier.label}
                   className={cn(
@@ -28,7 +28,6 @@ export function PricingTeaser() {
                       ? "bg-ink-900 text-white"
                       : "bg-white border border-line text-ink-900"
                   )}
-                  style={{ opacity: 1 }}
                 >
                   <p
                     className={cn(
@@ -58,10 +57,10 @@ export function PricingTeaser() {
                 <Check className="size-4 text-ocean-600" /> max. 6 hráčů / dráha
               </span>
               <span className="flex items-center gap-1.5">
-                <Check className="size-4 text-ocean-600" /> obuv od 50 Kč
+                <Check className="size-4 text-ocean-600" /> leštění dráhy na přání 50 Kč
               </span>
               <span className="flex items-center gap-1.5">
-                <Check className="size-4 text-ocean-600" /> studenti −15 %
+                <Check className="size-4 text-ocean-600" /> platíte za dráhu, ne za hráče
               </span>
             </Reveal>
 

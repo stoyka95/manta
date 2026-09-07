@@ -39,7 +39,7 @@ type ButtonAsButton = CommonProps &
 export function Button(props: ButtonAsLink | ButtonAsButton) {
   const { variant = "primary", size = "md", className, children } = props;
   const cls = cn(
-    "group inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold transition-all duration-200 ease-out active:scale-[0.97]",
+    "group inline-flex flex-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-display font-semibold transition-all duration-200 ease-out active:scale-[0.97]",
     variants[variant],
     sizes[size],
     className

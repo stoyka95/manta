@@ -7,16 +7,12 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
-  const fontsDir = join(
-    process.cwd(),
-    "node_modules/@fontsource/plus-jakarta-sans/files"
-  );
-  const fontLatin = readFileSync(
-    join(fontsDir, "plus-jakarta-sans-latin-800-normal.woff")
-  );
-  const fontLatinExt = readFileSync(
-    join(fontsDir, "plus-jakarta-sans-latin-ext-800-normal.woff")
-  );
+  const poppinsDir = join(process.cwd(), "node_modules/@fontsource/poppins/files");
+  const interDir = join(process.cwd(), "node_modules/@fontsource/inter/files");
+  const fontLatin = readFileSync(join(poppinsDir, "poppins-latin-800-normal.woff"));
+  const fontLatinExt = readFileSync(join(poppinsDir, "poppins-latin-ext-800-normal.woff"));
+  const fontInter = readFileSync(join(interDir, "inter-latin-400-normal.woff"));
+  const fontInterExt = readFileSync(join(interDir, "inter-latin-ext-400-normal.woff"));
 
   return new ImageResponse(
     (
@@ -29,7 +25,7 @@ export default async function Image() {
           justifyContent: "center",
           padding: "80px",
           background: "linear-gradient(135deg, #0d3a56 0%, #145c87 45%, #1c7bae 100%)",
-          fontFamily: "PJS, PJSExt",
+          fontFamily: "Poppins, PoppinsExt",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
@@ -69,7 +65,7 @@ export default async function Image() {
             marginTop: 20,
             fontSize: 28,
             color: "rgba(255,255,255,0.75)",
-            fontFamily: "Inter",
+            fontFamily: "Inter, InterExt",
           }}
         >
           {site.lanes} drah · GLOW bowling · restaurace & bar · Praha 6
@@ -79,8 +75,10 @@ export default async function Image() {
     {
       ...size,
       fonts: [
-        { name: "PJS", data: fontLatin, weight: 800, style: "normal" },
-        { name: "PJSExt", data: fontLatinExt, weight: 800, style: "normal" },
+        { name: "Poppins", data: fontLatin, weight: 800, style: "normal" },
+        { name: "PoppinsExt", data: fontLatinExt, weight: 800, style: "normal" },
+        { name: "Inter", data: fontInter, weight: 400, style: "normal" },
+        { name: "InterExt", data: fontInterExt, weight: 400, style: "normal" },
       ],
     }
   );

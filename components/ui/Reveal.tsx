@@ -33,7 +33,7 @@ export function Reveal({
       className={cn(className)}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-80px 0px -80px 0px" }}
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -58,7 +58,7 @@ export function RevealGroup({
       className={cn(className)}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-80px 0px -80px 0px" }}
       transition={{ staggerChildren: stagger }}
     >
       {children}
@@ -80,7 +80,7 @@ export function ScaleIn({
       className={cn(className)}
       initial={{ opacity: 0, scale: 0.92 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-80px 0px -80px 0px" }}
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}

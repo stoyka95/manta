@@ -9,7 +9,12 @@ síťovým výstupem (egress proxy s allowlistem). Ověřeno:
   (`EGRESS_BLOCKED` / proxy 403 „connect_rejected“).
 - `WebSearch` → **funguje** (jiná cesta, mimo tuto proxy).
 - Fotobanky (`images.unsplash.com`, `source.unsplash.com`,
-  `images.pexels.com`) → **blokováno**.
+  `images.pexels.com`, `pixabay.com`, `cdn.pixabay.com` vč. jejich API) →
+  **blokováno**. Ověřeno opakovaně dvěma nezávislými cestami — `curl`
+  (Node fetch/proxy) i přímo přes headless Chromium (Playwright), obojí
+  končí na úrovni proxy s `ERR_TUNNEL_CONNECTION_FAILED` / 403. Chromium
+  tedy proxy restrikci neobchází — jde o skutečné síťové omezení tohoto
+  prostředí, ne o limitaci jednoho nástroje.
 - `github.com` → dosažitelný (potřeba pro git push).
 - npm registry (`registry.npmjs.org`), PyPI atd. → v `noProxy` allowlistu,
   **fungují přímo** (bez proxy).
@@ -31,7 +36,7 @@ síťovým výstupem (egress proxy s allowlistem). Ověřeno:
 | Framework | **Next.js 15** (App Router, TS) | SSG/SSR pro SEO, snadný Vercel deploy, file-based routing = čistá IA |
 | Styling | **Tailwind CSS v4** | rychlé sestavení design tokenů z `02-design.md`, výkon |
 | Animace | **Framer Motion (`motion`)** + CSS keyframes | deklarativní scroll/hover animace popsané v design docu |
-| Fonty | **`@fontsource/plus-jakarta-sans` + `@fontsource/inter`** | self-hosted, žádné runtime volání na Google |
+| Fonty | **`@fontsource/poppins` (nadpisy) + `@fontsource/inter` (text)** | self-hosted, žádné runtime volání na Google |
 | Ikony | **`lucide-react`** (doladěné vlastní SVG pro brand ilustrace) | lehké, tree-shakable |
 | Formuláře | React state + `zod` validace (client-side, bez backendu) | demo funkčnost bez nutnosti serveru/DB |
 | Obrázky loga | vlastní SVG → rasterizace přes `sharp` (node skript) do PNG | needed „logo → PNG“ zadání |
