@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sparkles, ShieldCheck, Users2, Trophy } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PhotoBand } from "@/components/sections/PhotoBand";
 import { Reveal, RevealGroup, RevealItem, ScaleIn } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { PageHero } from "@/components/sections/PageHero";
@@ -39,6 +40,8 @@ export default function BowlingPage() {
         title="Šest drah. Nekonečno stylů hry."
         text={`Bowling Manta má ${site.lanes} profesionálních drah se scoringovým systémem QUBICA CONQUEROR BES Premium a večerním GLOW nasvětlením — otevřeno denně v Praze 6.`}
       />
+
+      <PhotoBand slugs={["hero-lanes", "glow-night", "bowling-shoes"]} />
 
       <section className="pb-20 sm:pb-28">
         <Container>

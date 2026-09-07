@@ -35,6 +35,7 @@ export const mainNav: NavItem[] = [
   { label: "Restaurace & bar", href: "/restaurace-a-bar" },
   { label: "Oslavy & akce", href: "/oslavy-a-akce" },
   { label: "Ceník", href: "/cenik" },
+  { label: "Galerie", href: "/galerie" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 

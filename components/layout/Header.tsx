@@ -156,7 +156,7 @@ function NavLink({
     <NextLink
       href={item.href}
       className={cn(
-        "relative whitespace-nowrap rounded-full px-2.5 py-2 font-display text-sm font-semibold transition-colors xl:px-4 xl:text-[15px]",
+        "relative whitespace-nowrap rounded-full px-2.5 py-2 font-display text-sm font-semibold transition-colors xl:px-3 xl:text-[15px]",
         active ? "text-ocean-700" : "text-ink-700 hover:text-ocean-700"
       )}
     >

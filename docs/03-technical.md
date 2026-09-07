@@ -184,7 +184,38 @@ Interaktivní ukázka rezervačního systému — celá se vejde na jednu obrazo
 Formulář je stále demo — nic se neodesílá, což je na stránce i v potvrzení
 explicitně napsané.
 
-## 10. Nasazení
+## 10. Fotky a galerie
+
+Sandbox této session nemá přístup k fotobankám (viz sekce 1), takže na webu
+zatím nejsou skutečné fotografie. Místo „prázdných“ míst je nasazený
+**fotosystém, který fotky přijme bez zásahu do kódu**:
+
+- `lib/photos.ts` — katalog 14 slotů (slug, alt, popisek, kategorie, poměr
+  stran). Čistý modul bez `node:fs`, aby šel importovat i z klientských
+  komponent.
+- `lib/photos.server.ts` — `photoSrc()` / `availablePhotos()`; sahá na disk,
+  takže **jen pro serverové komponenty**. (Import z klientské komponenty
+  shodí Turbopack build na `does not support external modules (node:fs)`.)
+- `components/ui/Photo.tsx` — slot. Když v `public/photos/<slug>.<ext>` leží
+  soubor, vykreslí `next/image`; jinak brandovou ilustraci ze
+  `components/illustrations/PhotoScene.tsx` ve stejném poměru stran, takže
+  layout nikdy neposkočí.
+- `public/photos/README.md` — tabulka slotů pro klienta.
+
+Ilustrované scény (9 typů + varianty) jsou schválně ploché a bez gradientů —
+navazují na origami styl loga a nemají `id`, takže je lze bezpečně vykreslit
+vícekrát na jedné stránce.
+
+**Galerie `/galerie`**: masonry mřížka (CSS `columns`), filtr kategorií s
+`layoutId` indikátorem, lightbox s klávesovou i klikací navigací, JSON-LD
+`ImageGallery` (obrázky se do schématu přidají teprve až existují).
+Fotopásy jsou i na `/bowling`, `/restaurace-a-bar` a `/oslavy-a-akce`.
+
+**Pozor na `aspect-ratio` + `h-full`**: kombinace počítá šířku z výšky, takže
+v grid řádku s vyšším sourozencem prvek přeteče sloupec. Sloty proto výšku
+nikdy neroztahují.
+
+## 11. Nasazení
 
 1. `git push` do větve `claude/bowling-manta-demo-web-m26pwp`.
 2. Vercel projekt napojený na repozitář `stoyka95/manta` (přes Vercel MCP

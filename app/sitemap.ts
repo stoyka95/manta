@@ -8,6 +8,7 @@ const routes = [
   { path: "/oslavy-a-akce", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/cenik", priority: 0.8, changeFrequency: "monthly" as const },
   { path: "/rezervace", priority: 0.9, changeFrequency: "monthly" as const },
+  { path: "/galerie", priority: 0.7, changeFrequency: "monthly" as const },
   { path: "/kontakt", priority: 0.7, changeFrequency: "yearly" as const },
   { path: "/faq", priority: 0.7, changeFrequency: "monthly" as const },
 ];

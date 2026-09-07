@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cake, Briefcase, Users, Heart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PhotoBand } from "@/components/sections/PhotoBand";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { PageHero } from "@/components/sections/PageHero";
 import { StepList } from "@/components/sections/StepList";
@@ -34,6 +35,8 @@ export default function OslavyAAkcePage() {
         text={`Kapacita až ${site.capacity} hostů, bezbariérové prostory a program sestavený přesně na míru vaší oslavě nebo firemní akci.`}
         tone="glow"
       />
+
+      <PhotoBand slugs={["birthday-party", "team-celebration", "kids-bowling"]} />
 
       <section className="pb-20 sm:pb-28">
         <Container>

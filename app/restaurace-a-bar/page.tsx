@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Martini, Wine, Coffee } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { PhotoBand } from "@/components/sections/PhotoBand";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { PageHero } from "@/components/sections/PageHero";
@@ -32,6 +33,8 @@ export default function RestauraceABarPage() {
         text="Kontinentální kuchyně s poledním menu 11:00–15:00. Restaurace sedí nad dráhami s výhledem na hru, takže servis nikdy nepřeruší zápas."
         tone="gold"
       />
+
+      <PhotoBand slugs={["burger", "restaurant-interior", "wine"]} />
 
       <section className="pb-20 sm:pb-28">
         <Container>
