@@ -39,6 +39,7 @@ síťovým výstupem (egress proxy s allowlistem). Ověřeno:
 | Fonty | **`@fontsource/poppins` (nadpisy) + `@fontsource/inter` (text)** | self-hosted, žádné runtime volání na Google |
 | Ikony | **`lucide-react`** (doladěné vlastní SVG pro brand ilustrace) | lehké, tree-shakable |
 | Formuláře | React state + `zod` validace (client-side, bez backendu) | demo funkčnost bez nutnosti serveru/DB |
+| Rezervace | vlastní `BookingWidget` (den × dráha × hodina, výpočet ceny) | interaktivní demo rezervačního systému, viz sekce 9 |
 | Obrázky loga | vlastní SVG → rasterizace přes `sharp` (node skript) do PNG | needed „logo → PNG“ zadání |
 | Hosting | **Vercel** | zadání uživatele |
 | Analytika (fáze 2) | `@vercel/analytics` + PostHog (anonymní) | zadání uživatele — připojuje se až po potvrzení nasazení |
@@ -142,7 +143,28 @@ analytiku anonymní (Vercel a PostHog)“* → analytika se připojuje **po**
    doplní jako env proměnná (`NEXT_PUBLIC_POSTHOG_KEY`) až budou k
    dispozici přístupy — kód připravíme jako no-op bez klíče.
 
-## 9. Nasazení
+## 9. Rezervační widget (`/rezervace`)
+
+Interaktivní ukázka rezervačního systému — celá se vejde na jednu obrazovku
+(bez scrollování), inspirace obdobným demem na `absolutni-bowling.vercel.app`.
+
+**Tok:** výběr dne → výběr slotů v mřížce → souhrn s cenou → kontakt → potvrzení.
+
+| Prvek | Chování |
+|---|---|
+| Výběr dne | 14 dní dopředu, stránkované po 7; „dnes“ má tečku. Po 20:00 se otevírá rovnou zítřek |
+| Mřížka | 6 drah × hodiny 11–23. V každé volné buňce je **cena za hodinu** (330/430/530 Kč Po–Pá, 450/550 Kč víkend a svátky) |
+| Obsazenost | deterministický FNV-1a hash z `datum\|dráha\|hodina` — stejný den vypadá vždy stejně, žádný hydration mismatch. Večery a víkendy jsou plnější |
+| Uplynulé hodiny | u dnešního dne jsou hodiny ≤ aktuální nevolitelné |
+| Limit | max. 3 hodiny na dráhu online (nad rámec = telefonicky), více drah najednou lze |
+| Cena | průběžný součet napříč vybranými sloty, rozpad po dráhách v souhrnu |
+| Responzivita | desktop: souhrn jako pravý sloupec; mobil: fixní spodní lišta, která se v dalším kroku rozvine do sheetu |
+| Hydratace | datum se počítá až na klientovi přes `useSyncExternalStore`; do té doby se renderuje skeleton stejné výšky |
+
+Formulář je stále demo — nic se neodesílá, což je na stránce i v potvrzení
+explicitně napsané.
+
+## 10. Nasazení
 
 1. `git push` do větve `claude/bowling-manta-demo-web-m26pwp`.
 2. Vercel projekt napojený na repozitář `stoyka95/manta` (přes Vercel MCP
