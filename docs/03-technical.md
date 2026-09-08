@@ -411,3 +411,50 @@ telefon má nově vlastní pilulku a CTA ikonu kalendáře, díky které morf
 
 Vedlejší úklid: v hlavičce byl dvakrát odkaz na `/rezervace` (ikonová
 i textová varianta, jedna schovaná CSS). Teď je jeden.
+
+## 15. Dvě chyby v rezervačním panelu
+
+### Tlačítko „Rezervovat“ přetékalo o 53 px
+
+`Button` má v základních třídách `flex-none`. V řádku
+
+```tsx
+<div className="flex gap-2">
+  <button …>Zpět</button>
+  <Button className="w-full …">Rezervovat</Button>
+</div>
+```
+
+to znamenalo `w-full` = 100 % šířky panelu **plus** `flex-shrink: 0`,
+takže se tlačítko odmítlo zúžit a vylezlo z tmavého panelu přesně
+o šířku „Zpět“ + mezeru (53 px na desktopu, 57 px na mobilu).
+
+Řešení je mřížka místo flexu: `grid-cols-[auto_minmax(0,1fr)]`. Grid
+položku `flex-none` neřeší (vlastnost `flex` platí jen pro flex
+položky), šířku určuje `1fr`.
+
+Pozn.: `cn()` je jen `clsx`, žádný `tailwind-merge` — na pořadí tříd se
+tedy nedá spoléhat a konflikt `w-full` × `flex-none` by se
+přetlučením třídy neřešil.
+
+### Demo štítek překrýval formulář
+
+Souhrn rezervace je pod `lg` fixní lišta u spodní hrany. V kroku výběru
+měří ~76 px, v kroku s kontakty ~290 px. Štítek z §13 měl napevno
+`bottom-24`, takže v druhém kroku zakryl obě pole formuláře.
+
+Místo tvrdé hodnoty souhrn teď publikuje svou výšku do CSS proměnné:
+
+```ts
+root.style.setProperty("--bottom-sheet", `${h}px`);
+```
+
+Zapisuje ji `ResizeObserver`, a jen dokud je souhrn opravdu `fixed` —
+nad `lg` je v toku a proměnná je nulová. Štítek pak sedí na
+`calc(var(--bottom-sheet, 0px) + 0.75rem)`, takže se odsune nad jakoukoli
+spodní lištu a na stránkách bez ní si drží běžné odsazení. `usePathname`
+už nepotřebuje.
+
+Ověřeno na 390 a 1440 px v obou krocích: štítek se s panelem nepřekrývá,
+z panelu nic nepřetéká, CLS zůstává 0,000 a na devíti routách napříč
+390/768/1024/1280/1440 px není vodorovný scroll.

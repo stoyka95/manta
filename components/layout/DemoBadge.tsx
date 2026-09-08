@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { ExternalLink, Info, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 /**
  * Trvalé upozornění, že jde o ukázku, ne o oficiální web klubu.
@@ -20,18 +18,15 @@ import { cn } from "@/lib/utils";
  */
 export function DemoBadge() {
   const [open, setOpen] = useState(true);
-  const pathname = usePathname();
-
-  // Na /rezervace sedí pod `lg` u spodní hrany fixní lišta se souhrnem
-  // rezervace — štítek se nad ni musí odsunout, ať nepřekrývá tlačítko.
-  const clearsBookingBar = pathname === "/rezervace";
 
   return (
     <div
-      className={cn(
-        "fixed right-3 z-50 print:hidden sm:right-4",
-        clearsBookingBar ? "bottom-24 lg:bottom-4" : "bottom-3 sm:bottom-4"
-      )}
+      className="fixed right-3 z-50 print:hidden sm:right-4"
+      // Odsazení od spodní hrany si drží samo, ale respektuje fixní
+      // spodní lištu, pokud ji stránka má (rezervační souhrn pod `lg`
+      // publikuje svou výšku do `--bottom-sheet`). Bez toho by štítek
+      // v kroku s kontakty překryl formulář.
+      style={{ bottom: "calc(var(--bottom-sheet, 0px) + 0.75rem)" }}
     >
       <AnimatePresence mode="wait" initial={false}>
         {open ? (

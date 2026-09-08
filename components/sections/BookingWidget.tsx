@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { CalendarCheck, Check, ChevronLeft, ChevronRight, Info, Phone } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -88,6 +88,36 @@ type Slot = { lane: number; hour: number };
 
 export function BookingWidget() {
   const isClient = useIsClient();
+  const sheetRef = useRef<HTMLElement>(null);
+
+  /* Souhrn je pod `lg` fixní lišta u spodní hrany a v kroku s kontakty
+     vyroste na několik set pixelů. Publikuje proto svou výšku do CSS
+     proměnné, aby se nad ni odsunul demo štítek — jinak formulář
+     překryje. Nad `lg` je souhrn v toku a proměnná je nulová. */
+  useEffect(() => {
+    const el = sheetRef.current;
+    const root = document.documentElement;
+    if (!el) {
+      root.style.removeProperty("--bottom-sheet");
+      return;
+    }
+    const update = () => {
+      const fixed = getComputedStyle(el).position === "fixed";
+      const top = el.getBoundingClientRect().top;
+      const h = fixed ? Math.max(0, Math.round(window.innerHeight - top)) : 0;
+      root.style.setProperty("--bottom-sheet", `${h}px`);
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    window.addEventListener("resize", update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+      root.style.removeProperty("--bottom-sheet");
+    };
+  }, [isClient]);
+
   /** Když dnes zbývají méně než 3 hrací hodiny, otevřeme rovnou zítřek. */
   const [dayOffset, setDayOffset] = useState(() =>
     typeof window === "undefined" ? 0 : new Date().getHours() > 20 ? 1 : 0
@@ -307,6 +337,7 @@ export function BookingWidget() {
       {/* =========================================================== souhrn
           desktop: pravý sloupec · mobil: fixní lišta u spodní hrany obrazovky */}
       <aside
+        ref={sheetRef}
         className={cn(
           "z-40 flex flex-col border border-line bg-ink-900 text-white shadow-lift",
           "fixed inset-x-3 bottom-3 rounded-2xl p-4",
@@ -450,7 +481,11 @@ export function BookingWidget() {
                 </p>
               </div>
 
-              <div className="mt-3 flex gap-2">
+              {/* Mřížka, ne flex: `Button` má v základu `flex-none`, takže by
+                  se ve flex řádku odmítl zúžit a `w-full` by ho roztáhl na
+                  celou šířku panelu — vedle „Zpět“ pak přetékal o 53 px.
+                  Grid položku `flex-none` neřeší, šířku určuje `1fr`. */}
+              <div className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] gap-2">
                 <button
                   type="button"
                   onClick={() => setStep("select")}
