@@ -346,3 +346,68 @@ Sitemap zůstává — pomáhá robotovi najít všechny stránky, u kterých si
 
 Až web dostane vlastní doménu a nahradí ten původní, stačí obrátit
 `index: false` na `true` a odebrat `<DemoBadge />` z layoutu.
+
+## 14. Smrsknutí hlavičky při scrollu
+
+Původně to působilo rozsypaně, protože jedna změna běžela na třech
+různých hodinách:
+
+| co | čím | trvání |
+|---|---|---|
+| šířka a odsazení lišty | `motion.div` `animate` | 350 ms |
+| pozadí, rámeček, stín | `transition-colors` | 150 ms (výchozí) |
+| **obsah ovládání** | `xl:hidden` / `xl:flex` | **0 ms — skok** |
+
+Text „+420 235 302 220“ a tlačítko „Rezervovat dráhu“ tedy zmizely
+v jednom snímku a kolečka s ikonami se objevila na jejich místě; teprve
+pak se lišta dalších 350 ms sunula do užšího tvaru.
+
+Teď je to jeden morf: ikona zůstává na místě a mění se jen popisek vedle
+ní. Vše na jedné křivce `cubic-bezier(0.32, 0.72, 0, 1)`, 450 ms.
+
+### Proč CSS a ne Framer Motion
+
+Podmínka „pod `xl` se vejdou jen ikony“ musí zůstat media query. Kdyby ji
+řešil JavaScript (`matchMedia`), server by neznal šířku okna, vykreslil
+by jiný stav než klient a hydratace by lištu posunula — tedy CLS, který
+je jinak na nule. CSS tenhle problém nemá. Bonus: popisek zůstává v DOM
+i ve smrsklém stavu, takže ho čtečky i roboti čtou pořád.
+
+### Šířka a průhlednost zvlášť
+
+Popisek má dva vnořené `<span>`: vnější animuje `max-width` (450 ms),
+vnitřní `opacity`. Se sdíleným trváním bylo při zavírání vidět, jak text
+ořezává zužující se pilulka („Rezervo…“), a při otevírání naskočil do
+ještě úzké.
+
+CSS bere hodnoty přechodu z **cílového** stavu, což dává asymetrii
+zadarmo:
+
+- zavírání → `duration-150`, bez prodlevy: text zmizí dřív, než ho stihne
+  šířka oříznout,
+- otevírání → `duration-200 delay-200`: pilulka se nejdřív rozevře,
+  teprve pak se text objeví.
+
+`max-width` v rozvinutém stavu má sedět na skutečnou šířku textu
+(naměřeno 131 a 135 px → `9rem`). Zbytečně velká hodnota znamená, že
+animace zpočátku „stojí“, než se `max-width` dostane pod šířku obsahu.
+
+Pozn.: rozvinutá šířka se předává jako **hotová třída**
+(`xl:max-w-[9rem]`), ne jako `xl:${...}` — Tailwind skenuje zdrojový
+text a složenou třídu by nevygeneroval.
+
+### Hystereze prahu
+
+`scrolled` se zapíná nad 48 px a vypíná pod 12 px. S jediným prahem
+lišta blikala, když uživatel zastavil přesně na hraně.
+
+### Rozměry
+
+Rozvinutá lišta je `max-w-[1200px]` (bylo 1160). Ovládání povyrostlo —
+telefon má nově vlastní pilulku a CTA ikonu kalendáře, díky které morf
+čte jako záměr — a při 1160 px obsah o 9 px přetékal. Ověřeno na
+1024/1100/1279/1280/1300/1366/1440/1600/1920 px: `scrollWidth` se rovná
+`clientWidth`, nikde vodorovný scroll.
+
+Vedlejší úklid: v hlavičce byl dvakrát odkaz na `/rezervace` (ikonová
+i textová varianta, jedna schovaná CSS). Teď je jeden.
